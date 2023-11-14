@@ -1,3 +1,4 @@
+
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
@@ -16,20 +17,13 @@ end
 config.font = wezterm.font 'JetBrainsMono Nerd Font'
 config.font_size = 13.0
 config.color_scheme = 'OneDark (base16)'
-
-config.launch_menu = {
-    {
-        label = "bolus",
-        cwd = "$HOME/Documents/Projects/bolus-website/",
-        args = { "nvm use 18" },
-    },
-}
+config.color_scheme = 'Catppuccin Mocha'
 
 config.keys = {
     { key = "l", mods = "ALT", action = wezterm.action.ShowLauncher },
     { key = "t", mods = "CTRL", action = wezterm.action.SpawnTab "DefaultDomain" },
-    { key = "v", mods = "CTRL", action = wezterm.action.PasteFrom "Clipboard" },
-    { key = "c", mods = "CTRL", action = wezterm.action.CopyTo "ClipboardAndPrimarySelection" },
+    { key = "v", mods = "CMD", action = wezterm.action.PasteFrom "Clipboard" },
+    { key = "c", mods = "CMD", action = wezterm.action.CopyTo "ClipboardAndPrimarySelection" },
 }
 
 -- and finally, return the configuration to wezterm

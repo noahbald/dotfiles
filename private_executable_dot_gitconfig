@@ -1,0 +1,10 @@
+[user]
+	name = Noah Baldwin
+	email = nobaldwin@deloitte.com.au
+[credential]
+	helper = osxkeychain
+[core]
+	editor = nvim
+	excludesFile = ~/.gitignore
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
