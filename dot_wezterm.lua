@@ -12,6 +12,7 @@ if wezterm.config_builder then
 end
 
 -- This is where you actually apply your config choices
+config.default_prog = { '/opt/homebrew/bin/nu' }
 
 -- For example, changing the color scheme:
 config.font = wezterm.font 'JetBrainsMono Nerd Font'

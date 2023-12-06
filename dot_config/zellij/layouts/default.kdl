@@ -1,0 +1,10 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+    pane name="main"
+    pane size=10 name="nu"
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}

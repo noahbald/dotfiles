@@ -1,0 +1,96 @@
+format = """
+$status\
+[░▒▓](white)\
+[  ](bg:white fg:black)\
+[](bg:blue fg:white)\
+$directory\
+[](fg:blue bg:green)\
+$git_branch\
+$git_status\
+[](fg:green)\
+$fill\
+[](fg:yellow)\
+$time\
+$cmd_duration\
+[](fg:black bg:yellow)\
+$nodejs\
+$bun\
+$rust\
+$golang\
+$php\
+$ruby\
+[](fg:blue bg:black)\
+[   ](fg:black bg:blue)\
+[▓▒░](fg:blue)\
+\n$character"""
+
+[status]
+symbol = "[╭─](red)"
+success_symbol = "[╭─](black)"
+format = '[$symbol]($style)'
+disabled = false
+
+[fill]
+symbol = "·"
+style = "black"
+
+[directory]
+style = "fg:black bg:blue"
+format = "[ $path ]($style)"
+truncation_length = 4
+truncation_symbol = ""
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Projects" = "󰆦"
+
+[git_branch]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol $branch ](fg:black bg:green)]($style)'
+
+[git_status]
+style = "bg:green"
+format = '[[($all_status$ahead_behind )](fg:black bg:green)]($style)'
+
+[nodejs]
+symbol = "󰎙"
+style = "bg:black"
+format = '[[ $symbol ($version) ](fg:green bg:black)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:black"
+format = '[[ $symbol ($version) ](fg:red bg:black)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:black"
+format = '[[ $symbol ($version) ](fg:blue bg:black)]($style)'
+
+[php]
+symbol = ""
+style = "bg:black"
+format = '[[ $symbol ($version) ](fg:blue bg:black)]($style)'
+
+[ruby]
+symbol = ""
+style = "bg:black"
+format = '[[ $symbol ($version) ](fg:red bg:black)]($style)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:yellow"
+format = '[[  $time ](fg:black bg:yellow)]($style)'
+
+[cmd_duration]
+style = "bg:yellow"
+format = '[[  $duration ](fg:black bg:yellow)]($style)'
+
+[character]
+success_symbol = "[╰─](black)"
+error_symbol = "[╰─](red)"

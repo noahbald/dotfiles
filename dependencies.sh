@@ -2,10 +2,11 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install essentials
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 brew install nushell
+brew install starship
 brew install git
 brew install neovim
+brew install zellij
 
 # Install JavaScript runtimes
 brew install fnm
@@ -27,14 +28,10 @@ brew install cargo
 brew install zig
 
 # Install utilities
-brew install uutils-coreutils
 brew install eza
+brew install zoxide
 brew install dust
 brew install bat
 brew install fzf
 $(brew --prefix)/opt/fzf/install
 brew install jesseduffield/lazynpm/lazynpm
-
-brew install sebglazebrook/aliases/aliases
-aliases rehash
-
