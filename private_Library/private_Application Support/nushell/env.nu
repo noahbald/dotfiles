@@ -107,3 +107,17 @@ $env.TERM = wezterm
 
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
+
+def --env ya [args?] {
+	let tmp = $"(mktemp -t "yazi-cwd.XXXXX")"
+    if ($args == null) {
+        yazi --cwd-file $tmp
+    } else {
+        yazi $args --cwd-file $tmp
+    }
+	let cwd = (open $tmp)
+	if $cwd != "" and $cwd != $env.PWD {
+		cd $cwd
+	}
+	rm -f $tmp
+}

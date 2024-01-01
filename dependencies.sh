@@ -1,4 +1,4 @@
-# install homebew
+# install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install essentials
@@ -28,10 +28,14 @@ brew install cargo
 brew install zig
 
 # Install utilities
-brew install eza
-brew install zoxide
-brew install dust
-brew install bat
-brew install fzf
+brew install eza # Better ls (when not in nushell)
+brew install zoxide # Automated cd shortcuts
+brew install dust # Readable file stats
+brew install bat # Better cat
+brew install fzf # Fuzzy finder
 $(brew --prefix)/opt/fzf/install
-brew install jesseduffield/lazynpm/lazynpm
+brew install jesseduffield/lazynpm/lazynpm # NPM TUI
+brew install lazygit # Git TUI
+brew install ripgrep # Better grep
+brew install fd # Better find
+brew install yazi ffmpegthumbnailer unar jq poppler # Visual interactive cd (+ previewers and processors)
