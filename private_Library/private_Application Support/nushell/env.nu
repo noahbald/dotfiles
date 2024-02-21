@@ -100,6 +100,8 @@ $env.NU_PLUGIN_DIRS = [
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
 # $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
 $env.PATH = ($env.PATH | split row (char esep) | append "/opt/homebrew/bin/")
+$env.PATH = ($env.PATH | split row (char esep) | append "/usr/local/bin/")
+$env.PATH = ($env.PATH | split row (char esep) | prepend $'( $env.HOME )/.cargo/bin')
 $env.config.buffer_editor = nvim
 $env.EDITOR = nvim
 $env.VISUAL = nvim
@@ -108,6 +110,9 @@ $env.TERM = wezterm
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
 
+$env.PATH = ($env.PATH | split row (char esep) | prepend $'( $env.HOME )/.rbenv/bin')
+$env.PATH = ($env.PATH | split row (char esep) | prepend $'( $env.HOME )/.rbenv/shims')
+zoxide init nushell | save -f ~/.zoxide.nu
 def --env ya [args?] {
 	let tmp = $"(mktemp -t "yazi-cwd.XXXXX")"
     if ($args == null) {
@@ -117,7 +122,7 @@ def --env ya [args?] {
     }
 	let cwd = (open $tmp)
 	if $cwd != "" and $cwd != $env.PWD {
-		cd $cwd
+		z $cwd
 	}
 	rm -f $tmp
 }
