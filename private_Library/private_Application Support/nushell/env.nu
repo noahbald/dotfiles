@@ -112,7 +112,10 @@ starship init nu | save -f ~/.cache/starship/init.nu
 
 $env.PATH = ($env.PATH | split row (char esep) | prepend $'( $env.HOME )/.rbenv/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend $'( $env.HOME )/.rbenv/shims')
+$env.GRIT_INSTALL = $'( $env.HOME )/.grit'
+$env.PATH = ($env.PATH | split row (char esep) | prepend $'( $env.GRIT_INSTALL )/bin')
 zoxide init nushell | save -f ~/.zoxide.nu
+source ~/.zoxide.nu
 def --env ya [args?] {
 	let tmp = $"(mktemp -t "yazi-cwd.XXXXX")"
     if ($args == null) {
