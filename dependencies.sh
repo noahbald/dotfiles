@@ -28,15 +28,15 @@ brew install cargo
 brew install zig
 
 # Install utilities
-brew install eza    # Better ls (when not in nushell)
-brew install zoxide # Automated cd shortcuts
-brew install dust   # Readable file stats
-brew install bat    # Better cat
-brew install fzf    # Fuzzy finder
-$(brew --prefix)/opt/fzf/install
+brew install eza                                    # Better ls (when not in nushell)
+brew install zoxide                                 # Automated cd shortcuts
+brew install dust                                   # Readable file stats
+brew install bat                                    # Better cat
+brew install fzf                                    # Fuzzy finder
+$(brew --prefix)/opt/fzf/install                    # Fuzzy finder
 brew install jesseduffield/lazynpm/lazynpm          # NPM TUI
 brew install lazygit                                # Git TUI
 brew install ripgrep                                # Better grep
 brew install fd                                     # Better find
 brew install yazi ffmpegthumbnailer unar jq poppler # Visual interactive cd (+ previewers and processors)
-curl -fsSL https://docs.grit.io/install | bash      # AST manipulation
+curl -fsSL https://docs.grit.io/install | bash      # AST query language
