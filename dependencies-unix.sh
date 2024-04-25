@@ -40,3 +40,5 @@ brew install ripgrep                                # Better grep
 brew install fd                                     # Better find
 brew install yazi ffmpegthumbnailer unar jq poppler # Visual interactive cd (+ previewers and processors)
 curl -fsSL https://docs.grit.io/install | bash      # AST query language
+
+# Initialisations
