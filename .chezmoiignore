@@ -1,0 +1,11 @@
+readme.md
+install.nu
+install-win.ps1
+install-unix.sh
+
+{{- if ( or ( eq .chezmoi.os "darwin" ) ( eq .chezmoi.os "linux") ) -}}
+{{- else if eq .chezmoi.os "windows" -}}
+.zshrc
+.grit
+.config/zellij
+{{- end -}}

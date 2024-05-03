@@ -1,7 +1,7 @@
 format = """
 $status\
 [░▒▓](white)\
-[  ](bg:white fg:black)\
+$os\
 [](bg:blue fg:white)\
 $directory\
 [](fg:blue bg:green)\
@@ -29,6 +29,15 @@ symbol = "[╭─](red)"
 success_symbol = "[╭─](black)"
 format = '[$symbol]($style)'
 disabled = false
+
+[os]
+style = "bg:white fg:black"
+disabled = false
+
+[os.symbols]
+Macos = "  "
+Windows = "  "
+Linux = "  "
 
 [fill]
 symbol = "·"
@@ -83,7 +92,7 @@ format = '[[ $symbol ($version) ](fg:red bg:black)]($style)'
 
 [time]
 disabled = false
-time_format = "%R" # Hour:Minute Format
+time_format = "%R"                                   # Hour:Minute Format
 style = "bg:yellow"
 format = '[[  $time ](fg:black bg:yellow)]($style)'
 
