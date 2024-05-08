@@ -1,6 +1,6 @@
 [user]
 	name = Noah Baldwin
-	email = nobaldwin@deloitte.com.au
+	email = {{ .email | quote }}
 [core]
 	editor = nvim
 	excludesFile = ~/.gitignore
@@ -11,5 +11,3 @@
 	sort = -committerdate
 [column]
 	ui = auto
-[maintenance]
-	repo = /Users/nobaldwin/Projects/_libs/FX

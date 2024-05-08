@@ -1,16 +1,21 @@
 echo "✨ Setting up install"
 
 alias install = brew install
-alias su-install = brew install
+alias install-extras = brew install --cask
+alias install-su = brew install
 if $nu.os-info.family == "windows" {
     alias install = scoop install
+    def --env install-extras [name: string] {
+        exec "scoop" "install" $"extras/($name)"
+    }
     install winget
 
-    alias su-install = winget install
+    alias install-su = winget install
 
     scoop bucket add extras
 } else if $nu.os-info.family == "unix" {
     brew tap oven-sh/bun
+    brew tab spotify
 }
 
 echo "✨ Installing applications"
@@ -47,24 +52,34 @@ install fd                                     # Better find
 install yazi ffmpegthumbnailer unar jq poppler # Visual interactive cd (+ previewers and processors)
 install fastfetch                              # System info
 
+# Install applications
+install-extras spotify
+install-extras obsidian
+install-extras wezterm
+install-extras bitwarden
+
 if $nu.os-info.name == "macos" {
     install raycast
 }
 if $nu.os-info.family == "windows" {
     # Install essentials
-    install extras/vcredist2022 # Neovim dependency
-    su-install --id Microsoft.Powershell --source winget # Powershell 7
+    install-extras vcredist2022 # Neovim dependency
+    install-su --id Microsoft.Powershell --source winget # Powershell 7
     install brave
     # Install MS C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-    su-install Microsoft.VisualStudio.2022.BuildTools --force --override "--wait --passive --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.22000"
+    install-su Microsoft.VisualStudio.2022.BuildTools --force --override "--wait --passive --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.22000"
+
+    # Install applications
 } else if $nu.os-info.family == "unix" {
     # Install essentials
     install zellij
-    install arc
 
     # Install utilities
     $(brew --prefix)/opt/fzf/install # Fuzzy finder
     curl -fsSL https://docs.grit.io/install | bash # AST query language
+
+    # Install applications
+    install arc
 }
 
 echo "✨ Setting up environment"
@@ -92,6 +107,6 @@ if $nu.os-info.family == "windows" {
 `
 }
 echo $`Don't forget to
-- Update your gitconfig email
+- Update your chezmoi.toml email
 - Set up ssh keys (https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 ($dont-forget)- To smile :)`
