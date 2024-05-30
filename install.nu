@@ -75,7 +75,7 @@ if $nu.os-info.family == "windows" {
     install zellij
 
     # Install utilities
-    $(brew --prefix)/opt/fzf/install # Fuzzy finder
+    ^$"(brew --prefix)/opt/fzf/install" # Fuzzy finder
     curl -fsSL https://docs.grit.io/install | bash # AST query language
 
     # Install applications
@@ -84,13 +84,13 @@ if $nu.os-info.family == "windows" {
 
 echo "✨ Setting up environment"
 
-$nvim-config = "~/.config/nvim/"
+mut $nvim_config = "~/.config/nvim/"
 if $nu.os-info.family == "windows" {
-    $nvim-config = "~/AppData/Local/nvim/"
+    $nvim_config = "~/AppData/Local/nvim/"
 }
 
 # Install configs
-git clone https://github.com/noahbald/LazyNvOAH.git $nvim-config
+git clone https://github.com/noahbald/LazyNvOAH.git $nvim_config
 git clone https://github.com/nushell/nu_scripts ~/.config/nu_scripts/
 chezmoi init --apply https://github.com/noahbald/dotfiles.git
 
@@ -101,12 +101,12 @@ starship init nu | save -f ~/.cache/starship/init.nu
 
 echo "✨ All done"
 
-$dont-forget = ""
+mut $dont_forget = ""
 if $nu.os-info.family == "windows" {
-    $dont-forget = `- Install Visual Studio C++
+    $dont_forget = `- Install Visual Studio C++
 `
 }
 echo $`Don't forget to
 - Update your chezmoi.toml email
-- Set up ssh keys (https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-($dont-forget)- To smile :)`
+- Set up ssh keys \(https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent\)
+($dont_forget)- To smile :\)`
