@@ -1,6 +1,6 @@
 ---
-    level: warn
-    tags: [performance, slow-types]
+level: warn
+tags: [performance, slow-types]
 ---
 
 Exported functions should be given an explicit type

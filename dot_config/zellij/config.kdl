@@ -45,6 +45,8 @@ keybinds {
         bind "j" "Down" { MovePane "Down"; }
         bind "k" "Up" { MovePane "Up"; }
         bind "l" "Right" { MovePane "Right"; }
+        bind "H" { MoveTab "Left"; }
+        bind "L" { MoveTab "Right"; }
     }
     tab {
         bind "Ctrl t" { SwitchToMode "Normal"; }
@@ -79,6 +81,7 @@ keybinds {
         bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
+        bind "x" { Clear; }
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
     }
@@ -181,6 +184,7 @@ keybinds {
         bind "Ctrl b" { SwitchToMode "Tmux"; }
     }
     unbind "Ctrl q"
+    unbind "Ctrl d"
 }
 
 plugins {

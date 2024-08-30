@@ -31,8 +31,10 @@ $env.NU_PLUGIN_DIRS = [
 use std 'path add'
 path add /opt/homebrew/sbin/
 path add /opt/homebrew/bin/
+path add /nix/var/nix/profiles/default/bin/
 path add /usr/local/bin/
 path add ~/.cargo/bin/
+path add ~/Library/pnpm/
 
 # Setup useful env vars
 $env.config.buffer_editor = nvim
@@ -46,7 +48,7 @@ starship init nu | save -f ~/.cache/starship/init.nu
 # Setup programs
 $env.GRIT_INSTALL = ~/.grit
 path add ($env.GRIT_INSTALL | path join 'bin')
-$env.PNPM_HOME = ~/Library/pnpm
+$env.PNPM_HOME = $"($env.HOME)/Library/pnpm"
 path add $env.PNPM_HOME
 
 zoxide init nushell | save -f ~/.zoxide.nu
@@ -67,6 +69,6 @@ def --env ya [args?] {
 }
 
 # Setup user specific/sensitive stuffs
-if whoami == 'baldwinn' {
+if (whoami) == 'baldwinn' {
     source ./anz.nu
 }

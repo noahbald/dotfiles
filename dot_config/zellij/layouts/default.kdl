@@ -1,10 +1,28 @@
 layout {
-    pane size=1 borderless=true {
-        plugin location="zellij:tab-bar"
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
     }
-    pane name="main"
-    pane size=10 name="nu"
-    pane size=1 borderless=true {
-        plugin location="zellij:status-bar"
+    new_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane name="main"
+        pane size=10 name="nu"
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+    tab name="main" {
+        pane name="main"
+        pane size=20 name="nu" split_direction="vertical" {
+            pane name="nu"
+            pane command="/opt/homebrew/bin/macmon" name="monitor"
+        }
     }
 }

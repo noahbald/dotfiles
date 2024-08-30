@@ -9,7 +9,7 @@ $env.config = ($env.config | merge {color_config: (catppuccin-mocha)})
 # Aliases
 use ~/.config/nu_scripts/aliases/bat/bat-aliases.nu *
 use ~/.config/nu_scripts/aliases/git/git-aliases.nu *
-alias nx = bun nx
+alias nx = bunx @nx-bun/nx
 
 # Completions
 source ~/.config/nu_scripts/custom-completions/bat/bat-completions.nu

@@ -1,6 +1,6 @@
 ---
-    level: info
-    tags: [atdw]
+level: info
+tags: [atdw]
 ---
 
 # Find prop interfaces that use swagger types
