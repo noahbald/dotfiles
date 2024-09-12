@@ -1,0 +1,52 @@
+#!/opt/homebrew/bin/nu
+
+# Dependencies:
+#   1. The Bitwarden CLI: https://bitwarden.com/help/article/cli/
+#   2. The `jq` utility: https://stedolan.github.io/jq/
+#
+# Install via homebrew: `brew install bitwarden-cli jq`
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Create a Text Send
+# @raycast.mode silent
+#
+# Optional parameters:
+# @raycast.packageName Bitwarden
+# @raycast.icon images/bitwarden.png
+# @raycast.argument1 { "type": "text", "placeholder": "Text" }
+# @raycast.argument2 { "type": "text", "placeholder": "Name", "optional": true }
+# @raycast.argument3 { "type": "text", "placeholder": "Password", "optional": true, "secure": true }
+#
+# Documentation
+# @raycast.author Phil Salant
+# @raycast.authorURL https://github.com/PSalant726
+# @raycast.description Create a new text-only Bitwarden Send.
+
+source ./setup.nu
+use ./unlock.nu
+
+def main [text: string, name?: string, password?: string] {
+  error make -u { msg: "don't use me" }
+  let session = unlock
+
+  let template = bw send template send.text
+    | from json
+    | update text.text $text
+    | update text.hidden true
+    | update notes ""
+    | update name {
+        if ($name | is-empty) { $in } else { $name }
+      }
+    | update password $password
+
+  let encoded = $template | to json | bw encode
+  try {
+    let url = bw send create ...$session $encoded | from json
+    $url.accessUrl | pbcopy
+  } catch { |error|
+    echo $error
+    error make -u { msg: $error.msg }
+  }
+  return "Send created! It's URL has been copied to the clipboard."
+}

@@ -2,6 +2,7 @@ readme.md
 install.nu
 install-win.ps1
 install-unix.sh
+*secret
 
 {{- if ( or ( eq .chezmoi.os "darwin" ) ( eq .chezmoi.os "linux") ) -}}
 {{- else if eq .chezmoi.os "windows" -}}
