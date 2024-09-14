@@ -1,0 +1,41 @@
+#!/opt/homebrew/bin/nu
+
+# Dependencies:
+#   1. The Bitwarden CLI: https://bitwarden.com/help/article/cli/
+#   2. The `jq` utility: https://stedolan.github.io/jq/
+#
+# Install via homebrew: `brew install bitwarden-cli jq`
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Copy First Matching TOTP
+# @raycast.mode silent
+#
+# Optional parameters:
+# @raycast.packageName Bitwarden
+# @raycast.icon images/bitwarden.png
+# @raycast.argument1 { "type": "text", "placeholder": "Query" }
+#
+# Documentation
+# @raycast.author Adrian Reyes
+# @raycast.author Phil Salant
+# @raycast.authorURL https://github.com/int3rrupt
+# @raycast.description Search all items in a Bitwarden vault, and copy the TOTP of the first search result to the clipboard.
+
+use ./unlock.nu
+
+def main [query: string] {
+  let session = unlock
+
+  let item = bw list items --search $query | first
+  if (item | is-empty) {
+    error make -u { msg: $"The query '($query)' did not return any items."}
+  }
+
+  try {
+    bw get totp $item.id ...$session | pbcopy
+  } catch {
+    error make -u { msg: $"The item '($item.name)' does not have a TOTP configured." }
+  }
+  return "Copied the TOTP for '$name' to the clipboard."
+}

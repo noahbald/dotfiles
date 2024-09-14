@@ -1,6 +1,6 @@
 ---
-    level: warn
-    tags: [performance, slow-types]
+level: warn
+tags: [performance, slow-types]
 ---
 
 # Slow function types
