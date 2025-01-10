@@ -14,10 +14,14 @@ end
 config.default_prog = {
 	"/opt/homebrew/bin/nu",
 	"-c",
-	"try { /opt/homebrew/bin/zellij a main } catch { try { /opt/homebrew/bin/zellij -s main } catch { /opt/homebrew/bin/zellij } }"
+	"try { /opt/homebrew/bin/zellij a main } catch { try { /opt/homebrew/bin/zellij -s main } catch { /opt/homebrew/bin/zellij } }",
 }
 config.default_cwd = "~/Projects/"
 config.hide_tab_bar_if_only_one_tab = true
+
+config.set_environment_variables = {
+	TERM = "wezterm",
+}
 
 -- For example, changing the color scheme:
 config.font = wezterm.font("JetBrainsMono Nerd Font")
@@ -40,6 +44,9 @@ config.keys = {
 	{ key = "t", mods = "CMD", action = wezterm.action.SpawnTab("DefaultDomain") },
 	{ key = "v", mods = "CMD", action = wezterm.action.PasteFrom("Clipboard") },
 	{ key = "c", mods = "CMD", action = wezterm.action.CopyTo("ClipboardAndPrimarySelection") },
+
+	-- Remove annoying defaults
+	{ key = "l", mods = "ALT", action = wezterm.action.DisableDefaultAssignment },
 }
 
 -- and finally, return the configuration to wezterm

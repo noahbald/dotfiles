@@ -1,3 +1,4 @@
+#!/opt/homebrew/bin/nu
 # Nushell Environment Config File
 #
 # version = "0.86.0"
@@ -37,16 +38,15 @@ path add ~/.cargo/bin/
 path add ~/Library/pnpm/
 
 # Setup useful env vars
-$env.config.buffer_editor = nvim
-$env.EDITOR = nvim
-$env.VISUAL = nvim
-$env.TERM = wezterm
+$env.config.buffer_editor = 'nvim'
+$env.EDITOR = 'nvim'
+$env.VISUAL = 'nvim'
 
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
 
 # Setup programs
-$env.GRIT_INSTALL = ~/.grit
+$env.GRIT_INSTALL = '~/.grit'
 path add ($env.GRIT_INSTALL | path join 'bin')
 $env.PNPM_HOME = $"($env.HOME)/Library/pnpm"
 path add $env.PNPM_HOME
@@ -67,6 +67,10 @@ def --env ya [args?] {
 	}
 	rm -f $tmp
 }
+use ~/.config/nu_scripts/modules/fnm/fnm.nu
+fnm use default | ignore
+
+use ~/zshrc.nu
 
 # Setup user specific/sensitive stuffs
 if (whoami) == 'baldwinn' {

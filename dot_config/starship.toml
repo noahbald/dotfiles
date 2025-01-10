@@ -20,7 +20,7 @@ $golang\
 $php\
 $ruby\
 [](fg:blue bg:black)\
-[   ](fg:black bg:blue)\
+[ $shell  ](fg:black bg:blue)\
 [▓▒░](fg:blue)\
 \n$character"""
 
@@ -89,6 +89,12 @@ format = '[[ $symbol ($version) ](fg:blue bg:black)]($style)'
 symbol = ""
 style = "bg:black"
 format = '[[ $symbol ($version) ](fg:red bg:black)]($style)'
+
+[shell]
+disabled = false
+style = "bg:black"
+nu_indicator = ""
+format = '[[$indicator](fg:black bg:blue)]($style)'
 
 [time]
 disabled = false
