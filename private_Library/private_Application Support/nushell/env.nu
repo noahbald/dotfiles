@@ -73,6 +73,9 @@ fnm use default | ignore
 use ~/zshrc.nu
 
 # Setup user specific/sensitive stuffs
-if (whoami) == 'baldwinn' {
-    source ./anz.nu
+const extra_config = if ($nu.home-path | str ends-with "baldwinn") {
+  "./anz.nu"
+} else {
+  "./home.nu"
 }
+source $extra_config
