@@ -1,0 +1,35 @@
+[[language]]
+name = "javascript"
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "vscode-eslint-language-server",
+  # "biome",
+]
+auto-format = true
+
+[[language]]
+name = "typescript"
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "vscode-eslint-language-server",
+  # "biome",
+]
+auto-format = true
+
+[[language]]
+name = "tsx"
+auto-format = true
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "vscode-eslint-language-server",
+  # "biome",
+]
+
+[[language]]
+name = "jsx"
+auto-format = true
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "vscode-eslint-language-server",
+  # "biome",
+]

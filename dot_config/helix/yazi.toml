@@ -1,0 +1,7 @@
+[manager]
+ratio = [0, 4, 0]
+
+[opener]
+edit = [
+  { run = '/opt/homebrew/bin/nu ~/.config/helix/yazi.nu open "$1" $YAZI_PIPE', desc = "Open File in a new pane" },
+]

@@ -1,8 +1,17 @@
+# # Helix wishlist
+# What's needed for me to adopt
+# 
+# - Session persistence (https://github.com/helix-editor/helix/pull/9143)
+# - Buffer alignment
+# - Custom keymap descriptions (https://github.com/helix-editor/helix/issues/1752)
 theme = "catppuccin_mocha"
 
 [editor]
+bufferline = "multiple"
+default-yank-register = "+"
 line-number = "relative"
-mouse = false
+mouse = true
+shell = ["nu", "--stdin", "-c"]
 
 [editor.cursor-shape]
 insert = "bar"
@@ -14,3 +23,31 @@ hidden = false
 
 [editor.soft-wrap]
 enable = true
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
+right = ["diagnostics", "selections", "register", "position", "position-percentage", "file-encoding"]
+separator = "multiple"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[keys.normal]
+esc = "collapse_selection"
+L = "goto_next_buffer"
+H = "goto_previous_buffer"
+
+[keys.normal._]
+# Hidden macros
+z = "@ggv<C-d><C-d>:pipe-to nu ~/.config/helix/yazi.nu height $in<ret><C-o>v"
+
+[keys.normal.space]
+ret = "@:insert-output nu ~/.config/helix/yazi.nu start <C-r>%<ret>\"\"duu:open <C-r>\"<ret>"
+backspace = ":buffer-close"
+
+[keys.normal.space.b]
+o = ":buffer-close-others"
+
+[keys.normal.space.space]
+g = ":sh zellij run -i -c -n lazygit -- /opt/homebrew/bin/lazygit"
+
