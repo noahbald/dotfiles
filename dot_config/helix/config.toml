@@ -1,17 +1,25 @@
 # # Helix wishlist
-# What's needed for me to adopt
+# For compatibility checkout `noahbald` branch of https://github.com/noahbald/helix
 # 
+# It contains the following
 # - Session persistence (https://github.com/helix-editor/helix/pull/9143)
-# - Buffer alignment
-# - Custom keymap descriptions (https://github.com/helix-editor/helix/issues/1752)
+# - Buffer alignment/zen-view (https://github.com/helix-editor/helix/pull/9838)
+# - Zebra-striping (https://github.com/helix-editor/helix/pull/12694)
+# - Command expansion (https://github.com/helix-editor/helix/pull/11164)
+# - Rust macro expansion (https://github.com/helix-editor/helix/issues/11435#issuecomment-2282325188)
+#
+# TODO: Integrate the following
+# - Custom keymap descriptions (https://github.com/helix-editor/helix/pull/3958)
 theme = "catppuccin_mocha"
 
 [editor]
 bufferline = "multiple"
 default-yank-register = "+"
+end-of-line-diagnostics = "hint"
 line-number = "relative"
 mouse = true
 shell = ["nu", "--stdin", "-c"]
+zebra-stripe = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -21,12 +29,27 @@ select = "underline"
 [editor.file-picker]
 hidden = false
 
+[editor.indent-guides]
+render = true
+
+[editor.inline-diagnostics]
+cursor-line = "hint"
+
+[editor.lsp]
+display-inlay-hints = false
+
+[editor.persistence]
+clipboard = true
+commands = true
+old-files = true
+search = true
+
 [editor.soft-wrap]
 enable = true
 
 [editor.statusline]
 left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
-right = ["diagnostics", "selections", "register", "position", "position-percentage", "file-encoding"]
+right = ["diagnostics", "workspace-diagnostics", "selections", "register", "position", "position-percentage", "file-encoding"]
 separator = "multiple"
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
@@ -36,18 +59,46 @@ mode.select = "SELECT"
 esc = "collapse_selection"
 L = "goto_next_buffer"
 H = "goto_previous_buffer"
-
-[keys.normal._]
-# Hidden macros
-z = "@ggv<C-d><C-d>:pipe-to nu ~/.config/helix/yazi.nu height $in<ret><C-o>v"
+C-z = ":set-max-width 120 0"
 
 [keys.normal.space]
-ret = "@:insert-output nu ~/.config/helix/yazi.nu start <C-r>%<ret>\"\"duu:open <C-r>\"<ret>"
+# ret = "@:insert-output nu ~/.config/helix/yazi.nu start \"<C-r>%\"<ret>\"\"duu:open <C-r>\"<ret>"
+ret = ":open %sh{nu ~/.config/helix/yazi.nu start '%{buffer_name}'}"
 backspace = ":buffer-close"
 
-[keys.normal.space.b]
+[keys.normal.space.b] # BUFFERS
 o = ":buffer-close-others"
+backspace = ":buffer-close"
+b = "buffer_picker"
 
-[keys.normal.space.space]
-g = ":sh zellij run -i -c -n lazygit -- /opt/homebrew/bin/lazygit"
+[keys.normal.m.t] # MATCH TAGS
+# surround with `<></>` with cursor instering on each tag
+# NOTE: Not possible to escape `>`, e.g. `<>>`
+s = "@|$\"<<>xxx(char --integer 62)($in)<<>/xxx(char --integer 62)\"<ret>sxxx<ret>c"
+
+[keys.normal.space.space] # EXTERNAL TUIS/STDOUT
+b = ":sh git log -n 5 --format='format:%%h (%%an: %%ar) %%s' --no-patch -L%{cursor_line},+1:%{buffer_name}"
+y = ":sh echo '%{buffer_name}' | pbcopy"
+g = ":sh zellij run -i -c -n 'hx > lazygit' -- /opt/homebrew/bin/lazygit"
+s = ":sh zellij run -f -c -n 'hx > scooter' -- /opt/homebrew/bin/scooter"
+# " " = ":open %sh{nu ~/.config/helix/fzf.nu start}"
+# "/" = ":open %sh{nu ~/.config/helix/fzf.nu start grep}"
+"?" = ":sh zellij run -f -- /opt/homebrew/bin/nu"
+"c" = ":sh pnpm nx bluestone @anz/cli approve-ciba --phone-number 0471219186"
+
+[keys.normal.space.space.q] # SESSIONS
+ret = "@:sh nu ~/.config/helix/session.nu push %{buffer_name}:%{cursor_line}:%{cursor_column}<ret>:bc<ret>"
+a = ":sh nu ~/.config/helix/session.nu push %{buffer_name}:%{cursor_line}:%{cursor_column}"
+q = ":sh nu ~/.config/helix/session.nu reset"
+
+# TODO: Other neovim plugin stuffs
+# color picker
+# - https://github.com/ChausseBenjamin/termpicker
+# - https://github.com/bcicen/tcolors
+# - https://github.com/immanelg/pik
+#
+# folding??
+# quickfix??
+# intl preview
+# 
 

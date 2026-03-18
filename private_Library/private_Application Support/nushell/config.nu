@@ -23,13 +23,25 @@ alias nx = pnpm exec nx
 alias edit = ^$env.EDITOR
 
 # Completions
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/7z.nu
 source ~/.config/nu_scripts/custom-completions/bat/bat-completions.nu
 source ~/.config/nu_scripts/custom-completions/cargo/cargo-completions.nu
+source ~/.config/nu_scripts/custom-completions/curl/curl-completions.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/fzf.nu
 source ~/.config/nu_scripts/custom-completions/git/git-completions.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/grep.nu
+source ~/.config/nu_scripts/custom-completions/man/man-completions.nu
 source ~/.config/nu_scripts/custom-completions/npm/npm-completions.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/nvim.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/pacman.nu
 source ~/.config/nu_scripts/custom-completions/pnpm/pnpm-completions.nu
 source ~/.config/nu_scripts/custom-completions/rg/rg-completions.nu
+source ~/.config/nu_scripts/custom-completions/rustup/rustup-completions.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/systemctl.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/xargs.nu
+source ~/.config/nu_scripts/custom-completions/yarn/yarn-v4-completions.nu
 source ~/.config/nu_scripts/custom-completions/zellij/zellij-completions.nu
+source ~/.config/nu_scripts/custom-completions/auto-generate/completions/zip.nu
 
 # Modules
 use ~/.config/nu_scripts/modules/git/git.nu

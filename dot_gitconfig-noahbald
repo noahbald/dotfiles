@@ -1,0 +1,5 @@
+[user]
+	name = Noah Baldwin
+	email = "noahwbaldwin@gmail.com"
+[core]
+	sshCommand = "ssh -i ~/.ssh/noahbald_ed25519 -o IdentitiesOnly=yes"

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # announce
-echo "✨ Running pre-install (unix)"
+echo "✨ Running pre-install (MacOS)"
 
 # install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # install nu
 echo "✨ Installing nushell"

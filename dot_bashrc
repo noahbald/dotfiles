@@ -1,0 +1,3 @@
+PATH="$HOMEBREW_PREFIX/opt/uutils-coreutils/libexec/uubin:$PATH"
+eval "$(/opt/homebrew/bin/nu -c 'use ~/zshrc.nu; zshrc env')"
+eval "$(starship init bash)"

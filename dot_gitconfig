@@ -1,0 +1,27 @@
+[user]
+	name = Noah Baldwin
+	email = "noahwbaldwin@gmail.com"
+[core]
+	editor = hx
+	pager = delta
+	excludesFile = ~/.gitignore
+	fsmonitor = true
+[interactive]
+  diffFilter = delta --color-only
+[include]
+  path = ~/.config/delta/themes.gitconfig
+[delta]
+  features = catppuccin-mocha
+  conflictstyle = diff3
+[diff]
+  colorMoved = default
+[rerere]
+	enabled = true
+	autoUpdate = true
+[branch]
+	sort = -committerdate
+[column]
+	ui = auto
+
+[includeIf "gitdir:~/Source/noahbald/"]
+	path = ~/.gitconfig-noahbald

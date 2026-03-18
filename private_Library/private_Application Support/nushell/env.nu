@@ -38,9 +38,9 @@ path add ~/.cargo/bin/
 path add ~/Library/pnpm/
 
 # Setup useful env vars
-$env.config.buffer_editor = 'nvim'
-$env.EDITOR = 'nvim'
-$env.VISUAL = 'nvim'
+$env.config.buffer_editor = 'hx'
+$env.EDITOR = 'hx'
+$env.VISUAL = 'hx'
 
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu

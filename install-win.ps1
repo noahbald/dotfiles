@@ -1,4 +1,4 @@
-echo "✨ Running pre-install (unix)"
+echo "✨ Running pre-install (windows)"
 
 # Install scoop
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression

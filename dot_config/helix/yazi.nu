@@ -10,7 +10,7 @@ def "main height" [selection: string] {
   $count | pbcopy
 }
 
-def "main start" [file: any] {
+def "main start" [file: string] {
   rm -f $log
   let file = if ($file | describe) != "string" {
     $env.PWD
@@ -28,8 +28,7 @@ def "main start" [file: any] {
   # FIXME: Update x, y, width, height to preferred size	
   # FIXME: /opt/homebrew/bin/nu may need to be updated to correct path	
   #        Try running `which nu`
-  let height = try { (pbpaste | into int) + 1 } catch { "66%" }
-  zellij run -f -c -x 1 -y 3 --width 50 --height $height -- /opt/homebrew/bin/nu ~/.config/helix/yazi.nu yazi $file $temp
+  zellij run -f -c -x 1 -y 3 --width 64 --height 64 -- /opt/homebrew/bin/nu ~/.config/helix/yazi.nu yazi $file $temp
 
   # Block until yazi writes to pipe	
   let result = cat $temp
@@ -37,8 +36,10 @@ def "main start" [file: any] {
   # Close yazi and emit result
   if $result != " " {
     zellij action close-pane
+    $result
+  } else {
+    null
   }
-  $result
 }
 
 def "main yazi" [file: string, pipe: string] {

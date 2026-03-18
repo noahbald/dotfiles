@@ -13,16 +13,29 @@ layout {
             plugin location="zellij:tab-bar"
         }
         pane name="main" { children; }
-        pane size=10 name="nu"
+        pane name="nu" size=10
         pane size=1 borderless=true {
             plugin location="zellij:status-bar"
         }
     }
     tab name="main" {
-        pane name="main"
-        pane size=20 name="nu" split_direction="vertical" {
-            pane name="nu"
-            pane command="/opt/homebrew/bin/macmon" name="monitor"
+        pane name="main" split_direction="vertical" {
+            pane name="nx" split_direction="horizontal" {
+             pane command="nu" start_suspended=true cwd="~/Source/bluestone" name="types:check" {
+                 args "-c" "use std 'path add'; path add ~/.asdf/shims; asdf reshim; pnpm nx show projects --affected | lines | where { str starts-with '@' } | input list --fuzzy | pnpm nx types:check $in"
+             }
+             pane command="nu" start_suspended=true cwd="~/Source/bluestone" name="lint" {
+                 args "-c" "use std 'path add'; path add ~/.asdf/shims; asdf reshim; pnpm nx show projects --affected | lines | where { str starts-with '@' } | input list --fuzzy | pnpm nx lint $in"
+             }
+             pane command="nu" start_suspended=true cwd="~/Source/bluestone" name="test" {
+                 args "-c" "use std 'path add'; path add ~/.asdf/shims; asdf reshim; pnpm nx show projects --affected | lines | where { str starts-with '@' } | input list --fuzzy | pnpm nx test $in"
+             }
+            }
+            pane name="nu" split_direction="horizontal" size=120 {
+                pane name="main" focus=true
+                pane name="nu"
+            }
+            pane command="/opt/homebrew/bin/btm" name="monitor"
         }
     }
 }
