@@ -35,9 +35,9 @@ def install [
             alias pacman = yay
         }
         if $pacman != null {
-            pacman -S $pacman
+            pacman -S --noconfirm --needed $pacman
         } else {
-            pacman -S ...$names
+            pacman -S --noconfirm --needed ...$names
         }
     } else {
         error make "OS not supported"
@@ -49,13 +49,13 @@ def link [
     --file
 ] {
     if (which ln | is-empty | not $in) {
-        if file {
-            ln $link $target
+        if $file {
+            ln -f $link $target
         } else {
-            ln -s $link $target
+            ln -f -s $link $target
         }
     } else if (which mklink | is-empty | not $in) {
-        if file {
+        if $file {
             mklink /h $link $target
         } else {
             mklink /d $link $target
@@ -69,15 +69,23 @@ echo "✨ Installing configs"
 
 # Install configs
 install git
-let dotfiles = "~/.dotfiles/"
-git clone https://github.com/noahbald/dotfiles $dotfiles
+let dotfiles = $"($nu.home-dir)/.dotfiles/"
+try {
+    git clone https://github.com/noahbald/dotfiles $dotfiles
+} catch {
+    try {
+        git -C $dotfiles pull origin main --ff-only
+    } catch {
+        git -C $dotfiles merge --no-ff
+    }
+}
 
 if $nu.os-info.name == "macos" {
-    link ($dotfiles | path join `private_Library/private_Application Support/lazygit/`) `~/Library/Application Support/lazygit/`
-    link ($dotfiles | path join `private_Library/private_Application Support/nushell/`) `~/Library/Application Support/nushell/`
-    link ($dotfiles | path join `private_Library/private_Application Support/com.mitchellh.ghostty/`) `~/Library/Application Support/com.mitchellh.ghostty/`
+    link ($dotfiles | path join "private_Library/private_Application Support/lazygit/") $"($nu.home-dir)/Library/Application Support/lazygit/"
+    link ($dotfiles | path join "private_Library/private_Application Support/nushell/") $"($nu.home-dir)/Library/Application Support/nushell/"
+    link ($dotfiles | path join "private_Library/private_Application Support/com.mitchellh.ghostty/") $"($nu.home-dir)/Library/Application Support/com.mitchellh.ghostty/"
 } else {
-    make error $"TODO: Support ($nu.os-info.name) application configs"
+    echo $"TODO: Support ($nu.os-info.name) application configs"
 }
 
 if (which zsh | is-empty | not $in) {

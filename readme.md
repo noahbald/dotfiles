@@ -20,7 +20,22 @@ Invoke-RestMethod -Uri https://raw.githubusercontent.com/noahbald/dotfiles/main/
 
 ### Arch/Linux
 
-I recommend using `archinstall` and then going to a root tty or rebooting to open desktop terminal.
+I recommend using `archinstall` and then going to a root tty or rebooting to open desktop terminal. Use the following settings and reboot after install.
+
+- Locales: en-AU.UTF-8
+- Mirrors and repository
+  - Regions: Australia
+  - Optional repositories: multilib
+- Partitioning: best effort
+  - File system: btrfs (default structure, compression)
+  - Encryption: LUKS (password)
+  - Partitions: Select any
+- Bootloader: Limine
+- Create root and su user/password
+- Applications:
+  - Bluetooth: Yes/No
+  - Audio: Pipewire
+- Network: Copy ISO
 
 This script will install different profiles based on whether the following was installed via `archinstall`
 
@@ -29,7 +44,7 @@ This script will install different profiles based on whether the following was i
 - None of the above: Assumes a server install; won't install any DE or graphical applications
 
 ```zsh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/noahbald/dotfiles/main/install-unix.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/noahbald/dotfiles/main/install-arch.sh)"
 ```
 
 ## External Sources
