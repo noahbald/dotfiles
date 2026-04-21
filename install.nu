@@ -35,9 +35,17 @@ def install [
             alias pacman = yay
         }
         if $pacman != null {
-            pacman -S --noconfirm --needed $pacman
+            if $yay {
+                yay -S --noconfirm --needed $pacman
+            } else {
+                pacman -S --noconfirm --needed $pacman
+            }
         } else {
-            pacman -S --noconfirm --needed ...$names
+            if $yay {
+                yay -S --noconfirm --needed ...$names
+            } else {
+                pacman -S --noconfirm --needed ...$names
+            }
         }
     } else {
         error make "OS not supported"
@@ -100,7 +108,11 @@ if (which bash | is-empty | not $in) {
 link ($dotfiles | path join "dot_gitconfig") ~/.gitconfig --file
 do -i { mkdir ~/.config }
 link ($dotfiles | path join "dot_config") ~/.config/
-git clone https://github.com/nushell/nu_scripts ~/.config/nu_scripts/
+try {
+    git clone https://github.com/nushell/nu_scripts ~/.config/nu_scripts/
+} catch {
+    git -C $dotfiles pull origin main --ff-only
+}
 
 echo "✨ Installing applications"
 
@@ -113,7 +125,7 @@ install helix # Editor
 install zellij # Multiplexer
 
 # Install browsers
-if (is_desktop) {
+if ($is_desktop) {
     install chrome --cask ungoogled-chromium --pacman chromium # Chromium
     install zen --cask zen --yay --pacman zen-browser-bin # Firefox
 }
@@ -123,10 +135,10 @@ install fnm # NodeJS
 install vscode-langservers-extracted --yay
 install prettierd --yay
 install superhtml --yay --pacman superhtml-bin
-npm i -g @typescript/native-preview
-npm i -g yarn
-npm i -g gulp-cli
-npm i -g grunt-cli
+sudo npm i -g @typescript/native-preview
+sudo npm i -g yarn
+sudo npm i -g gulp-cli
+sudo npm i -g grunt-cli
 
 install bun # BunJS
 
@@ -172,7 +184,7 @@ install opencode
 install ollama
 
 # Install applications
-if (is_desktop) {
+if ($is_desktop) {
     install spotify --extras spotify --cask spotify --pacman spotify-launcher
     install obsidian --cask obsidian
     install ghostty 
@@ -185,17 +197,14 @@ if $nu.os-info.name == "macos" {
 if $nu.os-info.family == "windows" {
     # Install MS C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
     install-su Microsoft.VisualStudio.2022.BuildTools --force --override "--wait --passive --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.22000"
-} else if $nu.os-info.family == "unix" {
-    # Install utilities
-    ^$"(brew --prefix)/opt/fzf/install" # Fuzzy finder
 }
 if $nu.os-info.name == "linux" {
     install networkmanager
-    install iwctl # connect to wifi devices
+    install iwd # connect to wifi devices
 
-    systemctl enable --now NetworkManager.service
+    sudo systemctl enable --now NetworkManager.service
 
-    if (is-desktop) {
+    if ($is_desktop) {
         install vulkan-icd-loader
     }
 }
@@ -221,9 +230,10 @@ if $nu.os-info.family == "windows" {
 }
 if $nu.os-info.name == "linux" {
     $dont_forget = "- Install GPU drivers for your hardware (for desktop)
+- Reboot
 "
 }
-nu -e $"\"Don't forget to
+nu -c $"\"Don't forget to
 - Set up ssh keys \(https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent\)
 - Update `~/.gitignore` email
 ($dont_forget)- To smile :\)\""
