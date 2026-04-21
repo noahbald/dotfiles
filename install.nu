@@ -98,6 +98,7 @@ if (which bash | is-empty | not $in) {
 }
 
 link ($dotfiles | path join "dot_gitconfig") ~/.gitconfig --file
+do -i { mkdir ~/.config }
 link ($dotfiles | path join "dot_config") ~/.config/
 git clone https://github.com/nushell/nu_scripts ~/.config/nu_scripts/
 
