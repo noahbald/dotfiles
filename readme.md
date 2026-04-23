@@ -40,7 +40,7 @@ I recommend using `archinstall` and then going to a root tty or rebooting to ope
 This script will install different profiles based on whether the following was installed via `archinstall`
 
 - `gnome-shell`: Assumes a minimalist install; only installs a subset of the `gnome` group
-- `hyprland`: Assumes a maximalist install; TODO: install riced desktop
+- `hyprland`: Assumes a maximalist install
 - None of the above: Assumes a server install; won't install any DE or graphical applications
 
 ```zsh
