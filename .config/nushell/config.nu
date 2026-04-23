@@ -39,7 +39,7 @@ source ~/.config/nu_scripts/custom-completions/rg/rg-completions.nu
 source ~/.config/nu_scripts/custom-completions/rustup/rustup-completions.nu
 source ~/.config/nu_scripts/custom-completions/auto-generate/completions/systemctl.nu
 source ~/.config/nu_scripts/custom-completions/auto-generate/completions/xargs.nu
-source ~/.config/nu_scripts/custom-completions/yarn/yarn-v4-completions.nu
+# source ~/.config/nu_scripts/custom-completions/yarn/yarn-v4-completions.nu
 source ~/.config/nu_scripts/custom-completions/zellij/zellij-completions.nu
 source ~/.config/nu_scripts/custom-completions/auto-generate/completions/zip.nu
 

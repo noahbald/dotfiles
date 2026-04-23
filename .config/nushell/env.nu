@@ -38,9 +38,10 @@ path add ~/.cargo/bin/
 path add ~/Library/pnpm/
 
 # Setup useful env vars
-$env.config.buffer_editor = 'hx'
-$env.EDITOR = 'hx'
-$env.VISUAL = 'hx'
+let editor = which hx helix nvim vim vi | first | $in.command
+$env.config.buffer_editor = $editor
+$env.EDITOR = $editor
+$env.VISUAL = $editor
 
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
@@ -73,7 +74,7 @@ fnm use default | ignore
 use ~/zshrc.nu
 
 # Setup user specific/sensitive stuffs
-const extra_config = if ($nu.home-path | str ends-with "baldwinn") {
+const extra_config = if ($nu.home-dir | str ends-with "baldwinn") {
   "./anz.nu"
 } else {
   "./home.nu"
