@@ -106,8 +106,10 @@ if (which bash | is-empty | not $in) {
 }
 
 link ($dotfiles | path join "dot_gitconfig") ~/.gitconfig --file
-do -i { mkdir ~/.config }
-link ($dotfiles | path join "dot_config") ~/.config/
+if ("~/.config" | path exists) or (ls ~/.config | is-empty | not $in) {
+    error make "Please backup and delete ~/.config and try again"
+}
+link ($dotfiles | path join ".config") $nu.home-dir
 try {
     git clone https://github.com/nushell/nu_scripts ~/.config/nu_scripts/
 } catch {
@@ -116,7 +118,7 @@ try {
 
 echo "✨ Installing applications"
 
-let is_desktop = $nu.os-info.name == "macos" or $nu.os-info.family == "windows" or (which gnome-shell | is-empty | not $in)
+let is_desktop = $nu.os-info.name == "macos" or $nu.os-info.family == "windows" or (which gnome-shell | is-empty | not $in) or (which hyprland | is-empty | not $in)
 
 # Install essentials
 install nushell # Shell
@@ -131,7 +133,7 @@ if ($is_desktop) {
 }
 
 # Install JavaScript runtimes
-install fnm # NodeJS
+install fnm # NodeJS. Alternative: mise
 install vscode-langservers-extracted --yay
 install prettierd --yay
 install superhtml --yay --pacman superhtml-bin
@@ -188,6 +190,14 @@ if ($is_desktop) {
     install spotify --extras spotify --cask spotify --pacman spotify-launcher
     install obsidian --cask obsidian
     install ghostty 
+    install ttf-jetbrains-mono-nerd
+    install ttf-atkinson-hyperlegible
+
+    if $nu.os-info.name == "linux" {
+        install vulkan-icd-loader
+        install wl-clipboard
+        install plocate # like fd, but pre-indexed
+    }
 }
 
 if $nu.os-info.name == "macos" {
@@ -201,17 +211,41 @@ if $nu.os-info.family == "windows" {
 if $nu.os-info.name == "linux" {
     install networkmanager
     install iwd # connect to wifi devices
+    install bluetui impala # device tuis
+    install kernel-modules-hook # kernel upgrade handler
+    install man-db # remote manuals
+    install unzip # decompression
+    install whois # searches ownership of domain name
+    install wireless-regdb # prevent illegal use of radio frequencies
+    install pacman-contrib
 
     sudo systemctl enable --now NetworkManager.service
-
-    if ($is_desktop) {
-        install vulkan-icd-loader
-    }
 }
 
 if (which gnome-shell | is-empty | not $in) {
     # Install subset of [gnome](https://archlinux.org/groups/x86_64/gnome/) group
-    install gdm gnome-backgrounds gnome-color-manager gnome-control-center gnome-disk-utility gnome-logs gnome-menus gnome-session gnome-settings-daemon loupe nautilus papers showtime snapshot sushi xdg-desktop-portal-gnome xdg-user-dirs-gtk
+    install gdm gnome-backgrounds gnome-color-manager gnome-control-center gnome-disk-utility gnome-logs gnome-menus gnome-session gnome-settings-daemon evince loupe nautilus papers showtime snapshot sushi xdg-desktop-portal-gnome xdg-user-dirs-gtk
+}
+if (which hyprland | is-empty | not $in) {
+    install hypridle hyprland-guiutils hyprlock hyprsunset
+    install --yay hyprland-preview-share-picker-git
+    install xdg-desktop-portal-gtk xdg-desktop-portal-hyprland xdg-terminal-exec
+    install greetd # login
+    install polkit # auth toolkit
+    install hyprpolkitagent # polkit auth daemon
+    install mako # notification daemon
+    install swaybg # wallpaper
+    install swayosd # control notifications
+    install --yay elephant-bin elephant-providerlist-bin elephant-desktopapplications-bin # launcher backend
+    install --yay walker-bin # app launcher
+    install nautilus sushi # file explorer
+    install evince # document viewer
+    install --yay gpu-screen-recorder
+    install brightnessctl
+
+    systemctl --user enable --now hyprpolkitagent.service
+
+    link ($dotfiles | path join "etc/greet") /etc/greetd
 }
 
 echo "✨ Setting up environment"
