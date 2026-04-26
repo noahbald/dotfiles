@@ -1,0 +1,216 @@
+// -*- mode: jsonc -*-
+{
+  "layer": "top",
+  "position": "right",
+  "margin": 0,
+  "width": 0,
+  "reload_style_on_change": true,
+  "modules-left": [
+    "group/power"
+  ],
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "group/audio",
+    "group/brightness",
+    "group/network",
+    "battery"
+  ],
+  "group/power": {
+    "modules": [
+      "custom/powerbutton",
+      "custom/reboot",
+      "custom/suspend",
+      "custom/lock",
+      "custom/idlekiller",
+      "user"
+    ],
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500
+    }
+  },
+  "custom/powerbutton": {
+    "format": "",
+    "on-click": "poweroff",
+    "tooltip-format": "Power Off"
+  },
+  "custom/reboot": {
+    "format": "",
+    "on-click": "reboot",
+    "tooltip-format": "Reboot"
+  },
+  "custom/suspend": {
+    "format": "",
+    "on-click": "systemctl suspend",
+    "tooltip-format": "Suspend"
+  },
+  "custom/lock": {
+    "format": "",
+    "on-click": "hyprlock",
+    "tooltip-format": "Lock"
+  },
+  "custom/idlekiller": {
+    "format": "",
+    "on-click": "pkill hypridle || hypridle",
+    "tooltip-format": "Inhibit Idle"
+  },
+  "user": {
+    "rotate": 270,
+    "class": "inert"
+  },
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "empty": "",
+      "special": "",
+      "default": ""
+    },
+    "active-only": false,
+    "special-visible-only": true,
+    "workspace-taskbar": {
+      "format": "{icon}",
+      "on-click": "activate",
+      "on-click-right": "close"
+    },
+    "persistent-workspaces": {
+      "*": 3
+    }
+  },
+  "group/audio": {
+    "modules": [
+      "pulseaudio",
+      "pulseaudio/slider"
+    ],
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    }
+  },
+  "pulseaudio": {
+    "format": "{volume}\n{icon}",
+    "format-bluetooth": "{volume}\n󰂯",
+    "format-bluetooth-muted": "M\n󰂲",
+    "format-muted": "M\n󰝟",
+    "format-source": "{volume}\n󰍬",
+    "format-source-muted": "󰍭",
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "󱡏",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰏲",
+      "car": "󰄋",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "pactl set-sink-mute 0 toggle",
+    "tooltip": "{desc}",
+    "justify": "center",
+    "reverse-scrolling": true
+  },
+  "pulseaudio/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "vertical"
+  },
+  "group/brightness": {
+    "modules": [
+      "backlight",
+      "backlight/slider"
+    ],
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    }
+  },
+  "backlight": {
+    "format": "{percent}\n{icon}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "tooltip": false,
+    "justify": "center",
+    "reverse-scrolling": true,
+    "class": "inert"
+  },
+  "backlight/slider": {
+    "min": 3,
+    "max": 100,
+    "orientation": "vertical"
+  },
+  "group/network": {
+    "modules": [
+      "network",
+      "bluetooth"
+    ],
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    }
+  },
+  "network": {
+    // "interface": "wlp2*", // (Optional) To force the use of this interface
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰈀",
+    "format-linked": "󰌹",
+    "format-disconnected": "󰌺",
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "tooltip-format": "{essid}: {ipaddr}\n{frequency}GHz\n󰜷 {bandwidthUpBytes}\n󰜮 {bandwidthDownBytes}",
+    "on-click": "hyprctl dispatch exec '[float] ghostty -e impala'"
+  },
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-on": "󰂳",
+    "format-connected": "󰂱",
+    "format-no-controller": "󰂲",
+    "tooltop-format": "{status}: {num_connections}\n{device_enumerate}",
+    "on-click": "hyprctl dispatch exec '[float] ghostty -e bluetui'"
+  },
+  "battery": {
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{capacity}\n{icon}",
+    "format-full": "{icon}",
+    "format-charging": "{capacity}\n",
+    "format-plugged": "{capacity}\n",
+    "tooltip-format": "{power} W, {timeTo}\nhealth: {health}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "justify": "center",
+    "class": "inert"
+  }
+}

@@ -1,6 +1,8 @@
 dconf
+gh/hosts.yml
 go
 nu_scripts
+nushell/history.txt
 pulse
 systemd
 zen
