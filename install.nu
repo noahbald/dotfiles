@@ -1,11 +1,15 @@
 echo "✨ Setting up install"
+$env.catalog = []
 
+# add homebrew tap
 def tap [name: string] {
     if $nu.os-info.name == "macos" {
         brew tap $name
     }
 }
-def install [
+
+# queues install items
+def --env install [
     ...names: string
     --cask: string
     --extras: string
@@ -36,22 +40,24 @@ def install [
         }
         if $pacman != null {
             if $yay {
-                yay -S --noconfirm --needed $pacman
+                $env.yay_queue = $env.yay_queue | append [$pacman]
             } else {
-                pacman -S --noconfirm --needed $pacman
+                $env.pacman_queue = $env.pacman_queue | append [$pacman]
             }
         } else {
             if $yay {
-                yay -S --noconfirm --needed ...$names
+                $env.yay_queue = $env.yay_queue | append $names
             } else {
-                pacman -S --noconfirm --needed ...$names
+                $env.pacman_queue = $env.pacman_queue | append $names
             }
         }
     } else {
         error make "OS not supported"
     }
 }
-def link [
+
+# creates a platform symlink
+def --env link [
     link: path
     target: path
     --file
@@ -71,12 +77,41 @@ def link [
     }
 }
 
+# runs installation for queued installs. should be called before any dependant applications
+# are executed.
+def --env commit [] {
+    if $nu.os-info.name == "linux" {
+        if (try { $env.pacman_queue } | is-empty | not $in) {
+            $env.catalog = $env.catalog | append $env.pacman_queue
+            sudo pacman -S --noconfirm --needed ...$env.pacman_queue
+        }
+        if (try { $env.yay_queue } | is-empty | not $in) {
+            $env.catalog = $env.catalog | append $env.yay_queue
+            yay -S --noconfirm --needed ...$env.yay_queue
+        }
+        $env.pacman_queue = []
+        $env.yay_queue = []
+    }
+}
+
+def --env catalog [] {
+    print $"Installed ($env.catalog | length) items"
+
+    let external = pacman -Qqe | lines | where $in not-in $env.catalog
+    if ($external | is-empty | not $in) {
+        print $"(ansi yellow)Found ($external | length) installed externally(ansi reset)"
+        print $external
+    }
+}
+
+commit
 tap oven-sh/bun
 
 echo "✨ Installing configs"
 
 # Install configs
 install git
+commit
 let dotfiles = $"($nu.home-dir)/.dotfiles/"
 try {
     git clone https://github.com/noahbald/dotfiles $dotfiles
@@ -106,7 +141,7 @@ if (which bash | is-empty | not $in) {
 }
 
 link ($dotfiles | path join "dot_gitconfig") ~/.gitconfig --file
-if ("~/.config" | path exists) or (ls ~/.config | is-empty | not $in) {
+if ("~/.config" | path exists) or (try { ls ~/.config } | is-empty | not $in) {
     error make "Please backup and delete ~/.config and try again"
 }
 link ($dotfiles | path join ".config") $nu.home-dir
@@ -133,30 +168,34 @@ if ($is_desktop) {
 }
 
 # Install JavaScript runtimes
-install fnm # NodeJS. Alternative: mise
+install mise # language manager
 install vscode-langservers-extracted --yay
 install prettierd --yay
 install superhtml --yay --pacman superhtml-bin
+commit
+mise use -g node # V8 JS Runtime
+mise use -g npm # Node package manager
 sudo npm i -g @typescript/native-preview
 sudo npm i -g yarn
 sudo npm i -g gulp-cli
 sudo npm i -g grunt-cli
 
-install bun # BunJS
+mise use -g bun # Webkit JS Runtime
 
 # Install Go runtimes
-install go
+mise use -g go
 install gopls
 
 # Install Python Utils
-install uv
+mise use -g python
+mise use -g uv # Python package manager
 
 # Install Rust compilers
-install rustup # Rust Lang
+mise use -g rust
 
 # Install CLang compilers
-install zig # Zig Lang
-install zls
+mise use -g zig
+mise use -g zls
 
 # Other language servers
 install harper
@@ -219,6 +258,7 @@ if $nu.os-info.name == "linux" {
     install wireless-regdb # prevent illegal use of radio frequencies
     install pacman-contrib
 
+    commit
     sudo systemctl enable --now NetworkManager.service
 }
 
@@ -229,7 +269,7 @@ if (which gnome-shell | is-empty | not $in) {
 if (which hyprland | is-empty | not $in) {
     install hypridle hyprland-guiutils hyprlock hyprsunset
     install --yay hyprland-preview-share-picker-git
-    install xdg-desktop-portal-gtk xdg-desktop-portal-hyprland xdg-terminal-exec
+    install xdg-desktop-portal-gtk xdg-desktop-portal-hyprland
     install qt5-wayland qt6-wayland uwsm # waylands
     install greetd # login
     install polkit # auth toolkit
@@ -245,11 +285,13 @@ if (which hyprland | is-empty | not $in) {
     install --yay gpu-screen-recorder
     install brightnessctl
 
+    commit
     systemctl --user enable --now hyprpolkitagent.service
 
-    link ($dotfiles | path join "etc/greet") /etc/greetd
+    sudo ln -f -s ($dotfiles | path join "etc/greet") /etc/greetd
 }
 
+commit
 echo "✨ Setting up environment"
 
 # Init applications
@@ -257,6 +299,7 @@ zoxide init nushell | save -f ~/.zoxide.nu
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
 
+catalog
 echo "✨ All done"
 
 mut dont_forget = ""

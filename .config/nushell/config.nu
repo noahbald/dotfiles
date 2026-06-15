@@ -45,6 +45,7 @@ source ~/.config/nu_scripts/custom-completions/auto-generate/completions/zip.nu
 
 # Modules
 use ~/.config/nu_scripts/modules/git/git.nu
+use ($nu.default-config-dir | path join mise.nu)
 
 # Hooks
 $env.config.hooks.env_change.PWD = (

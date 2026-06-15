@@ -68,8 +68,9 @@ def --env ya [args?] {
 	}
 	rm -f $tmp
 }
-use ~/.config/nu_scripts/modules/fnm/fnm.nu
-fnm use default | ignore
+
+let mise_path = $nu.default-config-dir | path join mise.nu
+^mise activate nu | save $mise_path --force
 
 use ~/zshrc.nu
 
