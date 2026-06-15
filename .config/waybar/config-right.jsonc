@@ -1,0 +1,152 @@
+// -*- mode: jsonc -*-
+{
+	"layer": "top", // Waybar at top layer
+	"position": "right", // Waybar position (top|bottom|left|right)
+	"spacing": 8, // Gaps between modules
+	// top: hardware controls
+	"modules-left": ["group/power", "battery", "network", "bluetooth", "privacy"],
+	// center: workspaces
+	"modules-center": ["hyprland/workspaces"],
+	// bottom: driver controls
+	"modules-right": ["group/backlight", "group/pulseaudio"],
+
+	"group/power": {
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 200,
+			"transition-left-to-right": true
+		},
+		"modules": [
+			"custom/power",
+			"custom/reboot",
+			"custom/quit",
+			"custom/lock",
+			"idle_inhibitor"
+		]
+	},
+	"group/backlight": {
+		"modules": ["backlight", "backlight/slider"],
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 200,
+			"transition-left-to-right": false
+		}
+	},
+	"group/pulseaudio": {
+		"modules": ["pulseaudio", "pulseaudio/slider"],
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 200,
+			"transition-left-to-right": false
+		}
+	},
+
+	"custom/power": {
+		"format": "󰐥",
+		"tooltip": false,
+		"on-click": "shutdown now"
+	},
+	"custom/reboot": {
+		"format": "󰜉",
+		"tooltip": false,
+		"on-click": "reboot"
+	},
+	"custom/quit": {
+		"format": "󰈆",
+		"tooltip": false,
+		"on-click": "hyprctl dispatch exit"
+	},
+	"custom/lock": {
+		"format": "󰌾",
+		"tooltip": false,
+		"on-click": "hyprlock"
+	},
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "",
+			"deactivated": ""
+		}
+	},
+	"battery": {
+		"states": {
+			// "good": 95,
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{capacity}\n{icon}",
+		"format-full": "{icon}",
+		"tooltip-format": "{power} W, {timeTo}",
+		"format-icons": {
+			"default": ["", "", "", "", ""],
+			"charging": [""],
+			"plugged": [""]
+		},
+		"justify": "center"
+	},
+	"network": {
+		"format-wifi": "{icon}",
+		"format-ethernet": "󰈀",
+		"format-link": "󰌹",
+		"format-disconnected": "󱚵",
+		"format-disabled": "󱛅",
+		"format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+		"tooltip-format": "{essid}: {ipaddr}",
+		"on-click": "ghostty +new-window -e impala"
+	},
+	"bluetooth": {
+		"format": "󰂯",
+		"format-disabled": "󰂲",
+		"format-off": "󰂲",
+		"format-no-controller": "󰂲",
+		"tooltip-format": "{controller_alias}\t{controller_address}",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"on-click": "ghostty +new-window -e bluetui"
+	},
+	"privacy": {
+		"icon-spacing": 4,
+		"icon-size": 16,
+		"transition-duration": 200,
+		"modules": [
+			{ "type": "screenshare", "tooltip": true },
+			{ "type": "audio-in", "tooltip": true }
+		]
+	},
+
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"format-icons": {
+			"active": "",
+			"default": ""
+		},
+		"persistent-workspaces": {
+			"*": 2
+		}
+	},
+
+	"backlight/slider": {
+		"min": 0,
+		"max": 100,
+		"orientation": "vertical"
+	},
+	"backlight": {
+		"format": "{percent}\n{icon}",
+		"format-icons": ["", "", "", "", "", "", "", "", ""],
+		"tooltip": false,
+		"justify": "center",
+		"reverse-scrolling": true
+	},
+	"pulseaudio/slider": {
+		"min": 0,
+		"max": 100,
+		"orientation": "vertical"
+	},
+	"pulseaudio": {
+		"format": "{volume}\n{icon}",
+		"format-bluetooth": "{volume}\n󰂰",
+		"format-source": "{volume}\n{icon}",
+		"format-source-muted": "{volume}\n󰖁",
+		"format-icons": ["󰕿", "󰖀", "󰕾"]
+	}
+}

@@ -1,43 +1,241 @@
-@import "theme.css";
+@define-color rosewater #f5e0dc;
+@define-color flamingo #f2cdcd;
+@define-color pink #f5c2e7;
+@define-color mauve #cba6f7;
+@define-color red #f38ba8;
+@define-color maroon #eba0ac;
+@define-color peach #fab387;
+@define-color yellow #f9e2af;
+@define-color green #a6e3a1;
+@define-color teal #94e2d5;
+@define-color sky #89dceb;
+@define-color sapphire #74c7ec;
+@define-color blue #89b4fa;
+@define-color lavender #b4befe;
+@define-color text #cdd6f4;
+@define-color subtext1 #bac2de;
+@define-color subtext0 #a6adc8;
+@define-color overlay2 #9399b2;
+@define-color overlay1 #7f849c;
+@define-color overlay0 #6c7086;
+@define-color surface2 #585b70;
+@define-color surface1 #45475a;
+@define-color surface0 #313244;
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color crust #11111b;
 
-* {
-	all: initial; /* Reset GTK theme */
-	color: @main-fg;
+@keyframes blink {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
-@import "styles/fonts.css";
-@import "styles/modules-center.css";
-@import "styles/modules-left.css";
-@import "styles/modules-right.css";
-@import "styles/states.css";
 
-.module {
-	margin-bottom: -1px;
+/* --------------
+ * ---- BASE ----
+ * -------------- */
+
+* {
+	font-family: "JetBrainsMono", monospace;
+	font-size: 13px;
+	/* background: rgba(255, 0, 0, 0.1); */
 }
 
 #waybar {
-	background-color: @outline;
-}
-#waybar > box {
-	margin: 4px;
-	background-color: @main-bg;
-}
-
-button {
-	border-radius: 16px;
-	min-width: 16px;
-	padding: 0 10px;
-}
-button:hover {
-	background-color: @hover-bg;
-	color: @hover-fg;
+	background-color: @base;
+	color: @text;
 }
 
 tooltip {
-	border: 2px solid @main-br;
-	border-radius: 10px;
-	background-color: @main-bg;
+	border: 1px solid @green;
+	border-radius: 2px;
+	background: @base;
 }
-tooltip > box {
-	padding: 0 6px;
+
+.module {}
+
+.modules-left, .modules-right, .modules-right {
+	padding: 0 4px;
 }
+
+.modules-left {
+	padding-top: 8px;
+}
+.modules-center {}
+.modules-right {}
+
+.modules-bottom .module {
+	padding-top: 4px;
+}
+
+label {
+	min-width: 16px;
+	min-height: 0;
+	margin-left: -4px;
+}
+
+button, .text-button {
+	min-width: 16px;
+	min-height: 0;
+	border: 0;
+	padding: 3px 0 0;
+	margin: 0;
+	color: @text;
+}
+button:hover .text-button:hover {
+	box-shadow: none;
+	text-shadow: none;
+	background: @surface0;
+	border: 0;
+	padding: 3px 0 0;
+	margin: 0;
+}
+button + button, button + button:hover, .text-button + .text-button:hover {
+	margin-top: 4px;
+}
+
+label:focus {
+	outline: @blue;
+}
+
+scale {
+	min-width: 8px;
+	padding: 8px 0;
+}
+slider {
+	min-height: 0px;
+	min-width: 0px;
+	border: none;
+	opacity: 0;
+	background: transparent;
+	background-image: none;
+	box-shadow: none;
+}
+trough {
+	min-height: 100px;
+	min-width: 8px;
+	border: 1px solid @green;
+	border-radius: 8px;
+	background: @mantle;
+}
+highlight {
+	min-width: 8px;
+	border: 0;
+	border-radius: 8px;
+	background: @green;
+}
+
+
+/* -----------------------
+ * ---- SYSTEM STATUS ----
+ * ----------------------- */
+
+#systemd-failed-units {
+	color: @peach;
+}
+#systemd-failed units label {
+	margin: 0;
+}
+
+#clock label {
+	margin: 0;
+}
+
+
+/* ----------------
+ * ---- WINDOW ----
+ * ---------------- */
+
+#window label {
+	margin-left: -5px;
+}
+
+
+/* ------------------------------
+ * ---- APPLICATION CONTROLS ----
+ * ------------------------------ */
+
+#custom-taskbar {
+	padding: 8px 0;
+}
+
+#taskbar button {
+	min-height: 22px;
+	padding-top: 5px;
+}
+
+#taskbar image {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+
+/* ---------------------------
+ * ---- HARDWARE CONTROLS ----
+ * --------------------------- */
+
+#custom-power {}
+
+#battery.charging {
+	color: @green;
+}
+#battery.warning {
+	color: @peach;
+}
+#battery.critical {
+	color: @red;
+}
+
+#network.disabled {
+	color: @peach;
+}
+#network.no-controller {
+	color: @red;
+}
+
+#bluetooth.disabled {
+	color: @peach;
+}
+#bluetooth.no-controller {
+	color: @red;
+}
+#bluetooth.discovering {
+	animation-name: blink;
+	animation-duration: 1s;
+	animation-timing-function: steps(2);
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+#privacy .screenshare {
+	color: @red;
+}
+#privacy .audio-in {
+	color: @peach;
+}
+#privacy .audio-out {
+	color: @green;
+}
+
+/* --------------------
+ * ---- WORKSPACES ----
+ * -------------------- */
+
+ #workspaces {
+ 	color: @text
+ }
+ #workspaces button {
+ 	border-radius: 16px;
+ }
+ #workspaces .empty {
+ 	color: @subtext0;
+ }
+
+ /* -------------------------
+  * ---- DRIVER CONTROLS ----
+  * ------------------------- */

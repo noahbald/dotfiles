@@ -1,7 +1,5 @@
 # Use zellij
-command = /opt/homebrew/bin/nu
-maximize = true
-fullscreen = true
+command = nu
 
 # Keybindings
 ## Unbind features provided by zellij

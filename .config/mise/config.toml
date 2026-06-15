@@ -1,0 +1,10 @@
+[tools]
+bun = "latest"
+go = "latest"
+node = "latest"
+npm = "latest"
+python = "latest"
+rust = "latest"
+uv = "latest"
+zig = "latest"
+zsl = "latest"
