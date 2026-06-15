@@ -277,6 +277,7 @@ if (which hyprland | is-empty | not $in) {
     install mako # notification daemon
     install swaybg # wallpaper
     install swayosd # control notifications
+    install waybar # sidebar
     install --yay elephant-bin elephant-providerlist-bin elephant-desktopapplications-bin # launcher backend
     install --yay walker-bin # app launcher
     install nautilus sushi # file explorer
@@ -287,6 +288,8 @@ if (which hyprland | is-empty | not $in) {
 
     commit
     systemctl --user enable --now hyprpolkitagent.service
+    elephant service enable
+    systemctl --user start elephant.service
 
     sudo ln -f -s ($dotfiles | path join "etc/greet") /etc/greetd
 }
